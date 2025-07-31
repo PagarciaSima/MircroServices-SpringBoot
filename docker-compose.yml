@@ -6,7 +6,7 @@ services:
     container_name: mongodb  # Set a custom name for the container
     ports:
       # Mapping local port (left) to container's port (right)
-      - "27017:27017"  # Expose MongoDB port to the host
+      - "27018:27017"  # Expose MongoDB port to the host
     environment:
       MONGO_INITDB_ROOT_USERNAME: root  # Set the root username
       MONGO_INITDB_ROOT_PASSWORD: password  # Set the root password
