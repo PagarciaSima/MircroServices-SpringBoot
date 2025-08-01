@@ -11,3 +11,4 @@ services:
       - "3307:3306"  # Expose Mysql port to the host
     volumes:
       - ./mysql:/var/lib/mysql  # Mount the local './mysql' directory 
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql # Mount SQL script to initialize DB at container startup
