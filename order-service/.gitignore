@@ -32,5 +32,11 @@ build/
 ### VS Code ###
 .vscode/
 
-### MYSQL ###
-/mysql/
+# Ignorar archivos temporales de MySQL
+*.sock
+*.pid
+*.err
+*.cnf
+*.index
+*.ib*
+mysql/
