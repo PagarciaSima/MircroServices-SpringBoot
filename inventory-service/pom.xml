@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.pgs.microservices</groupId>
-	<artifactId>order-service</artifactId>
+	<artifactId>inventory-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>order-service</name>
-	<description>Order service</description>
+	<name>inventory-service</name>
+	<description>Inventory service</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -29,17 +29,6 @@
 	<properties>
 		<java.version>21</java.version>
 	</properties>
-	<dependencyManagement>
-	  <dependencies>
-	    <dependency>
-	      <groupId>org.springframework.cloud</groupId>
-	      <artifactId>spring-cloud-dependencies</artifactId>
-	      <version>2023.0.1</version> <!-- Compatible con Spring Boot 3.2.x -->
-	      <type>pom</type>
-	      <scope>import</scope>
-	    </dependency>
-	  </dependencies>
-	</dependencyManagement>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -72,7 +61,6 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.30</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
@@ -95,30 +83,6 @@
 			<artifactId>mysql</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-		  <groupId>org.springdoc</groupId>
-		  <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-		  <version>2.5.0</version>
-		</dependency>
-		<!-- 
-		    Enables the use of stubbed responses from external services during tests.
-		    Useful when your app depends on other microservices — you can simulate their responses
-		    without having to run the actual service.
-		    Internally uses WireMock to spin up a fake HTTP server during tests.
-		-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- 
-		    Library for testing REST APIs in a fluent and readable way.
-		    Allows you to easily send HTTP requests (GET, POST, etc.) and assert status, headers, and body.
-		-->
-        <dependency>
-			<groupId>io.rest-assured</groupId>
-			<artifactId>rest-assured</artifactId>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -131,7 +95,6 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
-							<version>1.18.30</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
