@@ -1,4 +1,4 @@
-package com.pgs.microservices.product.configuration;
+package com.pgs.microservices.inventory.configuration;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -12,14 +12,14 @@ import io.swagger.v3.oas.annotations.servers.Server;
 				email = "pablo.garciasimavilla@gmail.com",
 				url = "https://www.linkedin.com/in/pablo-garc%C3%ADa-simavilla-756469222/"
 			),
-			description = "OpenApi Micro Services - Products",
+			description = "OpenApi Micro Services - Inventory",
 			title = "OpenApi specification - Pablo García Simavilla",
 			version = "1.0"
 		),
 		servers  = {
 			@Server(
 				description = "Local environment",
-				url = "http://localhost:8080"
+				url = "http://localhost:8082"
 			)
 		}
 	)

@@ -84,6 +84,19 @@
 			<artifactId>mysql</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+		  <groupId>org.springdoc</groupId>
+		  <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+		  <version>2.5.0</version>
+		</dependency>
+		<!-- 
+		    Library for testing REST APIs in a fluent and readable way.
+		    Allows you to easily send HTTP requests (GET, POST, etc.) and assert status, headers, and body.
+		-->
+        <dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

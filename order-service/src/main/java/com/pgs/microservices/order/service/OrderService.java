@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.pgs.microservices.order.client.InventoryClient;
 import com.pgs.microservices.order.dto.OrderRequest;
 import com.pgs.microservices.order.model.Order;
 import com.pgs.microservices.order.repository.OrderRepository;
@@ -20,22 +21,35 @@ import lombok.extern.slf4j.Slf4j;
 public class OrderService {
 	
 	private final OrderRepository orderRepository;
+	private final InventoryClient inventoryClient;
 
 	/**
-	 * Places a new order by mapping the order request and saving it to the repository.
+	 * Places an order if the requested product is available in stock.
 	 *
-	 * @param orderRequest the incoming order request containing product and quantity details
+	 * <p>This method first checks the inventory service to verify if the product
+	 * identified by {@code skuCode} and requested quantity is in stock. If available,
+	 * it maps the {@link OrderRequest} to an {@link Order} entity and saves it in the database.
+	 * Otherwise, it throws a {@link RuntimeException} indicating the product is not available.</p>
+	 *
+	 * @param orderRequest the order request containing product SKU code and quantity
+	 * @throws RuntimeException if the requested product is not in stock
 	 */
 	public void placeOrder(OrderRequest orderRequest) {
-		log.debug("Received order request: {}", orderRequest);
-
-		Order order = mapOrderRequestToOrder(orderRequest);
-
-		log.debug("Mapped order: {}", order);
-
-		orderRepository.save(order);
-
-		log.debug("Order successfully saved with order number: {}", order.getOrderNumber());
+		var isProductInStock = this.inventoryClient.isInStock(orderRequest.skuCode(), orderRequest.quantity());
+		if(isProductInStock) {
+			log.debug("Received order request: {}", orderRequest);
+	
+			Order order = mapOrderRequestToOrder(orderRequest);
+	
+			log.debug("Mapped order: {}", order);
+	
+			orderRepository.save(order);
+	
+			log.debug("Order successfully saved with order number: {}", order.getOrderNumber());
+		} else {
+			log.debug("Product with skuCode {} is not in stock", orderRequest.skuCode());
+			throw new RuntimeException("Product with skuCode " + orderRequest.skuCode() + " is not in stock");
+		}
 	}
 
 	/**

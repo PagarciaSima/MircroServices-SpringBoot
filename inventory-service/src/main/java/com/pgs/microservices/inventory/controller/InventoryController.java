@@ -9,17 +9,43 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pgs.microservices.inventory.service.InventoryService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/inventory")
 @RequiredArgsConstructor
+@Tag(name = "Inventory", description = "API for managing Inventory")
 public class InventoryController {
 
 	private final InventoryService inventoryService ;
 	
+	/**
+	 * Checks if a product with the given SKU code has at least the specified quantity in stock.
+	 *
+	 * @param skuCode  the SKU code of the product to check availability for
+	 * @param quantity the quantity to check for stock availability
+	 * @return {@code true} if the product is in stock with the requested quantity, {@code false} otherwise
+	 */
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
+	@Operation(
+            summary = "Checks if a product is in stock",
+            description = "Creates a new order.",
+            responses = {
+                @ApiResponse(
+                    responseCode = "201",
+                    content = @Content(
+                        mediaType = "application/json",
+                        schema = @Schema(implementation = Boolean.class) 
+                    )
+                )
+            }
+        )
 	public boolean isInStock(@RequestParam String skuCode, @RequestParam Integer quantity) {
 		return this.inventoryService.isInStock(skuCode, quantity);
 	}

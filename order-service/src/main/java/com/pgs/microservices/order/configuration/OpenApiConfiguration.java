@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 		info = @Info (
 			contact = @Contact (
 				name = "Pablo",
-				email = "pgarcsim2334@hotmail.com",
+				email = "pablo.garciasimavilla@gmail.com",
 				url = "https://www.linkedin.com/in/pablo-garc%C3%ADa-simavilla-756469222/"
 			),
 			description = "OpenApi Micro Services - Orders",
