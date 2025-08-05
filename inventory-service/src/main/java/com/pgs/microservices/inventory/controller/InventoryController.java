@@ -14,6 +14,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -46,7 +49,9 @@ public class InventoryController {
                 )
             }
         )
-	public boolean isInStock(@RequestParam String skuCode, @RequestParam Integer quantity) {
+	public boolean isInStock(
+			@RequestParam @NotBlank String skuCode, 
+			@RequestParam (name = "quantity")  @NotNull @Min(1) Integer quantity) {
 		return this.inventoryService.isInStock(skuCode, quantity);
 	}
 }

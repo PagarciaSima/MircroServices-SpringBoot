@@ -89,6 +89,10 @@
 		  <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 		  <version>2.5.0</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
 		<!-- 
 		    Library for testing REST APIs in a fluent and readable way.
 		    Allows you to easily send HTTP requests (GET, POST, etc.) and assert status, headers, and body.
