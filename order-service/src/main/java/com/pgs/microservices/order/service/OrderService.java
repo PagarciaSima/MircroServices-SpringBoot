@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.pgs.microservices.order.client.InventoryClient;
 import com.pgs.microservices.order.dto.OrderRequest;
+import com.pgs.microservices.order.exception.ProductNotInStockException;
 import com.pgs.microservices.order.model.Order;
 import com.pgs.microservices.order.repository.OrderRepository;
 
@@ -48,7 +49,7 @@ public class OrderService {
 			log.debug("Order successfully saved with order number: {}", order.getOrderNumber());
 		} else {
 			log.debug("Product with skuCode {} is not in stock", orderRequest.skuCode());
-			throw new RuntimeException("Product with skuCode " + orderRequest.skuCode() + " is not in stock");
+			throw new ProductNotInStockException(orderRequest.skuCode());
 		}
 	}
 

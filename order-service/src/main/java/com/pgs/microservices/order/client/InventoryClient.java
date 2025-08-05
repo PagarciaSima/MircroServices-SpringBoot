@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.pgs.microservices.order.constants.InventoryConstants;
 
-@FeignClient(value = InventoryConstants.FEIGN_CLIENT_NAME, url = InventoryConstants.INVENTORY_SERVICE_BASE_URL)
+@FeignClient(value = InventoryConstants.FEIGN_CLIENT_NAME, url = "${inventory.url}")
 public interface InventoryClient {
 
 	@GetMapping(value = "/api/inventory") 

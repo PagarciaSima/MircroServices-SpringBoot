@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -51,7 +52,7 @@ public class OrderController {
                 )
             }
         )
-	public String placeOrder(@RequestBody OrderRequest orderRequest) {
+	public String placeOrder(@Valid @RequestBody OrderRequest orderRequest) {
 		this.orderService.placeOrder(orderRequest);
 		return ORDER_PLACED_SUCCESSFULLY_MSG;
 	}
