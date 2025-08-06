@@ -33,6 +33,7 @@ build/
 .vscode/
 
 /docker/**
+volume/data
 
 # Ignorar archivos temporales de MySQL
 *.sock
