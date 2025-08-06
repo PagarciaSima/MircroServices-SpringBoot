@@ -1,0 +1,41 @@
+version: '3.8' # Specifies the Docker Compose file format version
+
+services:
+  # MySQL database used by Keycloak
+  keycloak-mysql:
+    container_name: keycloak-mysql # Custom name for the MySQL container
+    image: mysql:8 # Uses the official MySQL 8 image from Docker Hub
+    volumes:
+      - ./volume-data/mysql_keycloak_data:/var/lib/mysql # Persists MySQL data on the host
+    environment:
+      MYSQL_ROOT_PASSWORD: root # Root password for MySQL
+      MYSQL_DATABASE: keycloak  # Database name to be created for Keycloak
+      MYSQL_USER: keycloak      # Username for Keycloak to connect to the DB
+      MYSQL_PASSWORD: password  # Password for the Keycloak DB user
+
+  # Keycloak authentication server
+  keycloak:
+    container_name: keycloak # Custom name for the Keycloak container
+    image: quay.io/keycloak/keycloak:24.0.1 # Uses a specific Keycloak version
+    command: [ "start-dev", "--import-realm" ] 
+    # "start-dev" runs Keycloak in development mode (no HTTPS required)
+    # "--import-realm" tells Keycloak to import realm data on startup
+
+    environment:
+      DB_VENDOR: MYSQL         # Database vendor (MySQL)
+      DB_ADDR: mysql           # Hostname of the MySQL service 
+      DB_DATABASE: keycloak    # Database name to connect to
+      DB_USER: keycloak        # Username for DB access
+      DB_PASSWORD: password    # Password for DB access
+      KEYCLOAK_ADMIN: admin    # Admin username to be created on first start
+      KEYCLOAK_ADMIN_PASSWORD: admin # Admin password
+
+    ports:
+      - "8181:8080" # Maps host port 8181 (local) to container port 8080 (Keycloak default)
+
+    volumes:
+      - ./docker/keycloak/realms/:/opt/keycloak/data/import/
+      # Mounts realm configuration files from the host for import into Keycloak
+
+    depends_on:
+      - keycloak-mysql # Ensures MySQL starts before Keycloak

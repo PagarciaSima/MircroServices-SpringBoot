@@ -31,3 +31,14 @@ build/
 
 ### VS Code ###
 .vscode/
+
+/docker/**
+
+# Ignorar archivos temporales de MySQL
+*.sock
+*.pid
+*.err
+*.cnf
+*.index
+*.ib*
+mysql/
