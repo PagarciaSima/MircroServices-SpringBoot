@@ -111,10 +111,10 @@
 			<artifactId>rest-assured</artifactId>
 		</dependency>
 		<!-- Open feign dependency to allow communication between microservices -->
-		<dependency>
+		<!--<dependency>
 	      <groupId>org.springframework.cloud</groupId>
 	      <artifactId>spring-cloud-starter-openfeign</artifactId>
-	    </dependency>
+	    </dependency>-->
 	    
 	    <!-- Validation -->
 	    <dependency>

@@ -1,14 +1,18 @@
 package com.pgs.microservices.order.client;
 
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.service.annotation.GetExchange;
 
-import com.pgs.microservices.order.constants.InventoryConstants;
-
-@FeignClient(value = InventoryConstants.FEIGN_CLIENT_NAME, url = "${inventory.url}")
+/**
+ * This interface uses Spring's modern declarative HTTP client with @GetExchange,
+ * introduced in Spring Framework 6 / Spring Boot 3.
+ * 
+ * Note: OpenFeign, while still supported, is no longer the recommended approach for new projects.
+ * The new Spring WebClient-based declarative clients provide a lighter, more flexible, and
+ * native Spring alternative.
+ */
 public interface InventoryClient {
 
-	@GetMapping(value = "/api/inventory") 
+	@GetExchange("/api/inventory")
 	boolean isInStock(@RequestParam String skuCode, @RequestParam Integer quantity);
 }
