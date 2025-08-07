@@ -8,6 +8,12 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
+	
+	private final String [] freeResourceUrls = {
+			
+		"/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/api-docs/**", "/aggregate/**",
+		"/aggregate/product-service/v3/api-docs/**"
+	};
 
 	/**
 	 * Configures the security filter chain for the application.
@@ -23,10 +29,12 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 	    return httpSecurity
-	        // Require authentication for any request to the application
-	        .authorizeHttpRequests(authorize -> 
-	            authorize.anyRequest().authenticated()
-	        )
+	        
+    		.authorizeHttpRequests(authorize -> 
+	    	    authorize.requestMatchers(freeResourceUrls).permitAll()
+	    	    // Require authentication for any request to the application
+	    	     .anyRequest().authenticated()
+	    	)
 	        // Configure the application as an OAuth2 Resource Server using JWT tokens
 	        .oauth2ResourceServer(oauth2 -> 
 	            oauth2.jwt(Customizer.withDefaults()) // Use default JWT decoder and validation settings
