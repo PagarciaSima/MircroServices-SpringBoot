@@ -1,0 +1,3 @@
+# Ignore MS Office temp files
+~$*.docx
+~WRL*.tmp
