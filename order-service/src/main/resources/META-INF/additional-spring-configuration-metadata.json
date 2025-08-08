@@ -1,5 +1,12 @@
-{"properties": [{
-  "name": "inventory.url",
-  "type": "java.lang.String",
-  "description": "A description for 'inventory.url'"
-}]}
+{"properties": [
+  {
+    "name": "inventory.url",
+    "type": "java.lang.String",
+    "description": "A description for 'inventory.url'"
+  },
+  {
+    "name": "inventory.url",
+    "type": "java.lang.String",
+    "description": "A description for 'inventory.url'"
+  }
+]}

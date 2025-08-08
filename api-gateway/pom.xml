@@ -31,14 +31,17 @@
         <spring-cloud.version>2023.0.1</spring-cloud.version>
     </properties>
     <dependencies>
+		<!-- GATE WAY -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway-mvc</artifactId>
         </dependency>
+        <!-- OAUTH2 RESOURCE SERVER -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
+        <!-- OPEN API  -->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
@@ -49,6 +52,7 @@
             <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
             <version>2.5.0</version>
         </dependency>
+        <!-- LOGS LOKI  -->
         <dependency>
             <groupId>com.github.loki4j</groupId>
             <artifactId>loki-logback-appender</artifactId>
@@ -76,24 +80,25 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- Devtools -->
+        <!-- DEVTOOLS -->
         <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-		<!-- Circuit Breaker / Resilience 4j -->
+		<!-- CIRCUIT BREAKER / RESILIENCE 4J -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
 		</dependency>
-		<!-- Actuator (metrics / monitoring app) -->
+		<!-- ACTUATOR (metrics / monitoring app) -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
     </dependencies>
+    <!-- CLOUD SETUP -->
     <dependencyManagement>
         <dependencies>
             <dependency>
