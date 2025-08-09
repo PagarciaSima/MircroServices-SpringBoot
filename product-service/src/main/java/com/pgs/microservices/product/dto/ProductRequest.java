@@ -18,7 +18,9 @@ public record ProductRequest(
 
 	    @NotNull(message = "Price is required")
 	    @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than zero")
-	    BigDecimal price
+	    BigDecimal price,
+	    
+	    String skuCode
 	) {
 
 	}

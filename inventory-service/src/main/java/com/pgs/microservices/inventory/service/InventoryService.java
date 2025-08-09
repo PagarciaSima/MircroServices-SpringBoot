@@ -23,7 +23,8 @@ public class InventoryService {
 	 */
 	public boolean isInStock(String skuCode, Integer quantity) {
         log.debug("Checking stock for SKU: {} with requested quantity: {}", skuCode, quantity);
-		boolean inStock = this.inventoryRepository.existsBySkuCodeAndQuantityGreaterThanEqual(skuCode, quantity);
+		boolean inStock = this.inventoryRepository.existsBySkuCodeAndQuantityIsGreaterThanEqual(skuCode, quantity);
+		
         if (inStock) {
             log.info("Product with SKU: {} is in stock with sufficient quantity.", skuCode);
         } else {

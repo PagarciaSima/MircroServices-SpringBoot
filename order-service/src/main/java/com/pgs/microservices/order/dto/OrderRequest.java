@@ -10,7 +10,6 @@ import jakarta.validation.constraints.NotNull;
 public record OrderRequest(
     Long id,
     String orderNumber,
-    @NotBlank(message = "SKU code is required")
     String skuCode,
     @NotNull(message = "Price is required")
     @DecimalMin(value = "0.0", inclusive = false, message = "Price must be positive")

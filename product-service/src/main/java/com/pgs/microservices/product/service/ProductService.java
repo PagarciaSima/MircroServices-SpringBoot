@@ -33,6 +33,7 @@ public class ProductService {
 
         Product product = Product.builder()
                 .name(productRequest.name())
+                .skuCode(productRequest.skuCode())
                 .description(productRequest.description())
                 .price(productRequest.price())
                 .build();
@@ -80,6 +81,7 @@ public class ProductService {
 	    return new ProductResponse(
 	            product.getId(),
 	            product.getName(),
+	            product.getSkuCode(),
 	            product.getDescription(),
 	            product.getPrice()
 	    );
