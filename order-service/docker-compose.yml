@@ -12,3 +12,54 @@ services:
     volumes:
       - ./mysql:/var/lib/mysql  # Mount the local './mysql' directory 
       - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql # Mount SQL script to initialize DB at container startup
+      
+  zookeeper: # Used to coordinate nodes
+    image: confluentinc/cp-zookeeper:7.5.0  # Official Confluent Zookeeper image (version 7.5.0)
+    hostname: zookeeper  # Hostname within Docker's internal network
+    container_name: zookeeper  # Custom container name
+    ports:
+      - "2181:2181"  # Expose Zookeeper's client connection port to the host
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181  # Port on which Zookeeper listens for client requests
+      ZOOKEEPER_TICK_TIME: 2000  # Basic time unit (in ms) for Zookeeper's internal heartbeat and sync
+
+  broker:
+    image: confluentinc/cp-kafka:7.5.0  # Official Confluent Kafka image (version 7.5.0)
+    container_name: broker  # Custom container name for Kafka broker
+    ports:
+      - "9092:9092"    # Port for external clients (localhost) to connect
+      - "29092:29092"  # Internal port for communication between containers
+    depends_on:
+      - zookeeper  # Kafka must wait for Zookeeper to start
+    environment:
+      KAFKA_BROKER_ID: 1  # Unique ID for the Kafka broker
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'  # Address of the Zookeeper service
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT  # Defines protocols for listeners
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://localhost:9092  # Addresses Kafka advertises to internal and external clients
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1  # Replication factor for Kafka's internal offsets topic (1 if single broker)
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:7.5.0  # Official Confluent Schema Registry image
+    hostname: schema-registry  # Hostname in Docker's internal network
+    container_name: schema-registry  # Custom container name
+    depends_on:
+      - broker  # Schema Registry requires Kafka to be running
+    ports:
+      - "8085:8081"  # Map external port 8085 to internal port 8081 of Schema Registry
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry  # Hostname of the service
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker:29092'  # Kafka broker address for storing schemas
+      SCHEMA_REGISTRY_LISTENERS: http://schema-registry:8081  # Internal URL where Schema Registry listens
+
+  kafka-ui:
+    container_name: kafka-ui  # Custom container name
+    image: provectuslabs/kafka-ui:latest  # Kafka UI image (web interface for Kafka)
+    ports:
+      - "8086:8080"  # Map external port 8086 to Kafka UI's internal port 8080
+    depends_on:
+      - broker  # Kafka UI requires Kafka broker to be running
+    environment:
+      KAFKA_CLUSTERS_NAME: local  # Cluster name displayed in the UI
+      KAFKA_CLUSTERS_BOOTSTRAPSERVERS: broker:29092  # Kafka broker address
+      KAFKA_CLUSTERS_SCHEMAREGISTRY: http://schema-registry:8081  # Schema Registry address
+      DYNAMIC_CONFIG_ENABLED: 'true'  # Allows dynamic cluster configuration from the UI

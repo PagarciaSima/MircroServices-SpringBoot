@@ -93,6 +93,11 @@
 			<artifactId>mysql</artifactId>
 			<scope>test</scope>
 		</dependency>
+		 <dependency>
+	      <groupId>org.testcontainers</groupId>
+	      <artifactId>kafka</artifactId>
+	      <scope>test</scope>
+	    </dependency>
 		
 		<!-- OPEN API -->
 		<dependency>
@@ -141,7 +146,15 @@
 		    <groupId>org.hibernate.validator</groupId>
 		    <artifactId>hibernate-validator</artifactId>
 		</dependency>
+		<!-- kafka -->
+		<dependency>
+	      <groupId>org.springframework.kafka</groupId>
+	      <artifactId>spring-kafka</artifactId>
+	    </dependency>
+
 	</dependencies>
+	
+	
 	
 	<dependencyManagement>
 	  <dependencies>
@@ -182,6 +195,28 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+			  <!-- mvn clean test -->
+		      <groupId>org.jacoco</groupId>
+		      <artifactId>jacoco-maven-plugin</artifactId>
+		      <version>0.8.10</version>
+		      <executions>
+		        <!-- Se ejecuta en la fase de test para preparar la instrumentación -->
+		        <execution>
+		          <goals>
+		            <goal>prepare-agent</goal>
+		          </goals>
+		        </execution>
+		        <!-- Genera el reporte después de tests -->
+		        <execution>
+		          <id>report</id>
+		          <phase>test</phase>
+		          <goals>
+		            <goal>report</goal>
+		          </goals>
+		        </execution>
+		      </executions>
+		    </plugin>
 		</plugins>
 	</build>
 

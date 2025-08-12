@@ -12,3 +12,5 @@ services:
     volumes:
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql  # Mount the local './mysql' directory 
       - ./docker/mysql/data:/var/lib/mysql
+      
+  

@@ -33,7 +33,6 @@ class InventoryControllerTest {
 
     @BeforeEach
     void setUp() {
-        // No special setup needed currently
     }
 
     @Test
