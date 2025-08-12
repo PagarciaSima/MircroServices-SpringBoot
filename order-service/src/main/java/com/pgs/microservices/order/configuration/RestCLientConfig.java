@@ -33,7 +33,7 @@ public class RestCLientConfig {
 	 * @return an implementation of InventoryClient that communicates with the inventory microservice
 	 */
 	@Bean
-	public InventoryClient inventoryClient() {
+	InventoryClient inventoryClient() {
 	    // Build the RestClient with the base URL of the inventory service
 	    RestClient restClient = RestClient.builder()
 	            .baseUrl(inventoryServiceUrl)  // e.g. "http://localhost:8082"
