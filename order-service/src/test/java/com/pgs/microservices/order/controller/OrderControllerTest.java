@@ -42,7 +42,8 @@ class OrderControllerTest {
             null,             // orderNumber is generated internally, so also null here
             "sku123",         // Sample SKU code
             BigDecimal.valueOf(99.99), // Sample price
-            5                 // Sample quantity
+            5,                 // Sample quantity
+            null // Userdetails
         );
     }
 
@@ -64,7 +65,7 @@ class OrderControllerTest {
     void placeOrder_ShouldReturnBadRequest_WhenInvalidOrderRequest() throws Exception {
         // Arrange: Create an invalid OrderRequest where quantity is 0 (violates validation constraint @Min(1))
         OrderRequest invalidRequest = new OrderRequest(
-            null, null, "sku123", BigDecimal.valueOf(50), 0
+            null, null, "sku123", BigDecimal.valueOf(50), 0, null
         );
 
         // Act & Assert: Perform a POST request with the invalid request and expect HTTP 400 Bad Request

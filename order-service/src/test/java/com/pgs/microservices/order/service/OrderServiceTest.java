@@ -38,7 +38,7 @@ class OrderServiceTest {
         when(inventoryClient.isInStock("sku123", 2)).thenReturn(true);
 
         OrderRequest orderRequest = new OrderRequest(
-            null, null, "sku123", BigDecimal.valueOf(50.0), 2
+            null, null, "sku123", BigDecimal.valueOf(50.0), 2, null
         );
 
         // Act
@@ -61,7 +61,7 @@ class OrderServiceTest {
         when(inventoryClient.isInStock("sku123", 2)).thenReturn(false);
 
         OrderRequest orderRequest = new OrderRequest(
-            null, null, "sku123", BigDecimal.valueOf(50.0), 2
+            null, null, "sku123", BigDecimal.valueOf(50.0), 2, null
         );
 
         // Act & Assert: Expect ProductNotInStockException to be thrown
