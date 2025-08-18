@@ -70,7 +70,11 @@ public class OrderService {
 	 * @param order the created order containing the generated order number
 	 */
 	private void sendOrderPlacedEvent(OrderRequest orderRequest, Order order) {
-		OrderPlacedEvent orderPlacedEvent = new OrderPlacedEvent(order.getOrderNumber(), orderRequest.userDetails().email());
+		OrderPlacedEvent orderPlacedEvent = new OrderPlacedEvent();
+		orderPlacedEvent.setOrderNumber(order.getOrderNumber());
+		orderPlacedEvent.setEmail(orderRequest.userDetails().email());
+		orderPlacedEvent.setFirstName(orderRequest.userDetails().firstName());
+		orderPlacedEvent.setLastName(orderRequest.userDetails().lastName());
 		log.info("Start - Sending OrderPlaceEvent {} to kafka topic order-placed", orderPlacedEvent);
 		kafkaTemplate.send("order-placed", orderPlacedEvent);
 		log.info("End - Sending OrderPlaceEvent {} to kafka topic order-placed", orderPlacedEvent);	

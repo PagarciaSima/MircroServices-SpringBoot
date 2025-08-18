@@ -169,10 +169,11 @@ export class HomePageComponent implements OnInit {
  * @returns An object containing the user's email, first name, and last name.
  */
   private getUserDetails(result: UserDataResult) {
+    console.log("result", result)
     return {
       email: result.userData.email,
-      firstName: result.userData.firstName,
-      lastName: result.userData.lastName
+      firstName: result.userData.given_name,
+      lastName: result.userData.family_name
     };
   }
 }
