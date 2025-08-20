@@ -19,7 +19,7 @@ class OrderServiceApplicationTests {
 
     @ServiceConnection
     // Defines a MySQL Testcontainer instance for integration tests (docker img)
-    static MySQLContainer mySQLContainer = new MySQLContainer("mysql:8.3.0"); 
+    static MySQLContainer<?> mySQLContainer = new MySQLContainer<>("mysql:8.3.0"); 
 
     @LocalServerPort
     // Injects the random port where the application is running

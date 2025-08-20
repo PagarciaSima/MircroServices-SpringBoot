@@ -118,7 +118,6 @@ public class OrderPlacedEvent extends org.apache.avro.specific.SpecificRecordBas
 
   // Used by DatumReader.  Applications should not call.
   @Override
-  @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
     case 0: orderNumber = (java.lang.CharSequence)value$; break;
@@ -457,7 +456,6 @@ public class OrderPlacedEvent extends org.apache.avro.specific.SpecificRecordBas
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public OrderPlacedEvent build() {
       try {
         OrderPlacedEvent record = new OrderPlacedEvent();

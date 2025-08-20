@@ -39,3 +39,41 @@ services:
 
     depends_on:
       - keycloak-mysql # Ensures MySQL starts before Keycloak
+  
+  loki:
+    image: grafana/loki:main
+    command: ['-config.file=/etc/loki/local-config.yaml']
+    ports:
+     - '3100:3100'
+     
+  prometheus:
+   image: prom/prometheus:v2.46.0
+   command:
+    - --enable-feature=exemplar-storage
+    - --config.file=/etc/prometheus/prometheus.yml
+    # Config for prometheus scrapping actuator
+   volumes:
+    - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+   ports:
+    - '9090:9090'
+    
+  tempo:
+   image: grafana/tempo:2.2.2  # Tempo Docker image for distributed tracing
+   command: ['-config.file=/etc/tempo.yaml']  # Use external config file instead of default
+   volumes:
+    - ./docker/tempo/tempo.yml:/etc/tempo.yaml:ro  # Map local config file into container (read-only)
+    - ./docker/tempo/tempo-data:/tmp/tempo  # Persist trace data locally
+   ports:
+    - '3110:3100'  # Tempo HTTP API port
+    - '9411:9411'  # Zipkin-compatible port for tracing clients
+    
+  grafana:
+   image: grafana/grafana:10.1.0
+   volumes:
+    - ./docker/grafana:/etc/grafana/provisioning/datasources:ro
+   environment:
+    - GF_AUTH_ANONYMOUS_ENABLED=true
+    - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    - GF_AUTH_DISABLE_LOGIN_FORM=true
+   ports:
+    - '3000:3000'

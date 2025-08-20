@@ -14,11 +14,17 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 import com.pgs.microservices.order.client.InventoryClient;
 
+import io.micrometer.observation.ObservationRegistry;
+import lombok.RequiredArgsConstructor;
+
 @Configuration
+@RequiredArgsConstructor
 public class RestCLientConfig {
 	
 	@Value("${inventory.url}")
 	private String inventoryServiceUrl;
+	
+	private final ObservationRegistry observationRegistry;
 
 	/**
 	 * Creates a declarative HTTP client proxy for the Inventory service using Spring's RestClient.
@@ -38,6 +44,7 @@ public class RestCLientConfig {
 	    RestClient restClient = RestClient.builder()
 	            .baseUrl(inventoryServiceUrl)  // e.g. "http://localhost:8082"
 	            .requestFactory(getClientRequestFactory()) // Config for http request timeout
+	            .observationRegistry(observationRegistry)
 	            .build();
 
 	    // Adapt the RestClient so it can be used by Spring's HTTP service proxy factory

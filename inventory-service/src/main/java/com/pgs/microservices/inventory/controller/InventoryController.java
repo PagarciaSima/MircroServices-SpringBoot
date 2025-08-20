@@ -51,7 +51,8 @@ public class InventoryController {
         )
 	public boolean isInStock(
 			@RequestParam @NotBlank String skuCode, 
-			@RequestParam (name = "quantity")  @NotNull @Min(1) Integer quantity) {
+			@RequestParam (name = "quantity")  @NotNull @Min(1) Integer quantity) 
+	{
 		return this.inventoryService.isInStock(skuCode, quantity);
 	}
 }
