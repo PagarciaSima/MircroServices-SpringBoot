@@ -1,0 +1,197 @@
+# =========================
+# MYSQL ORDER
+# =========================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-order
+  labels:
+    app: mysql-order
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-order
+  template:
+    metadata:
+      labels:
+        app: mysql-order
+    spec:
+      containers:
+        - name: mysql-order
+          image: mysql:8.3.0
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-order-secrets
+                  key: mysql_order_root_password
+          volumeMounts:
+            - name: mysql-order-data
+              mountPath: /var/lib/mysql
+            - name: mysql-order-initdb-config
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: mysql-order-data
+          persistentVolumeClaim:
+            claimName: mysql-order-pvc
+        - name: mysql-order-initdb-config
+          configMap:
+            name: mysql-order-initdb-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-order-service
+  labels:
+    app: mysql-order
+spec:
+  type: NodePort
+  selector:
+    app: mysql-order
+  ports:
+    - port: 3306
+      targetPort: 3306
+      nodePort: 30007
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-order-secrets
+type: Opaque
+data:
+  mysql_order_root_password: bXlzcWw=
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-order-pv
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /data/mysql-order
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-order-pvc
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-order-initdb-config
+data:
+  initdb.sql: |
+    CREATE DATABASE IF NOT EXISTS order_service;
+---
+# =========================
+# MYSQL INVENTORY
+# =========================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-inventory
+  labels:
+    app: mysql-inventory
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-inventory
+  template:
+    metadata:
+      labels:
+        app: mysql-inventory
+    spec:
+      containers:
+        - name: mysql-inventory
+          image: mysql:8.3.0
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-inventory-secrets
+                  key: mysql_inventory_root_password
+          volumeMounts:
+            - name: mysql-inventory-data
+              mountPath: /var/lib/mysql
+            - name: mysql-inventory-initdb-config
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: mysql-inventory-data
+          persistentVolumeClaim:
+            claimName: mysql-inventory-pvc
+        - name: mysql-inventory-initdb-config
+          configMap:
+            name: mysql-inventory-initdb-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-inventory-service
+  labels:
+    app: mysql-inventory
+spec:
+  type: NodePort
+  selector:
+    app: mysql-inventory
+  ports:
+    - port: 3306
+      targetPort: 3306
+      nodePort: 30008
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-inventory-secrets
+type: Opaque
+data:
+  mysql_inventory_root_password: bXlzcWw=
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-inventory-pv
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /data/mysql-inventory
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-inventory-pvc
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-inventory-initdb-config
+data:
+  initdb.sql: |
+    CREATE DATABASE IF NOT EXISTS inventory_service;

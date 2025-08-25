@@ -153,17 +153,28 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
+		        <groupId>org.springframework.boot</groupId>
+		        <artifactId>spring-boot-maven-plugin</artifactId>
+		        <configuration>
+		          <image>
+		            <name>pabgarsi/new-${project.artifactId}</name>
+		            <builder>dashaun/builder:tiny</builder>
+		            <publish>true</publish>
+		          </image>
+		          <docker>
+		            <publishRegistry>
+		              <username>pabgarsi</username>
+		              <password>${env.DOCKER_PASS}</password>
+		            </publishRegistry>
+		          </docker>
+		          <excludes>
+		            <exclude>
+		              <groupId>org.projectlombok</groupId>
+		              <artifactId>lombok</artifactId>
+		            </exclude>
+		          </excludes>
+		        </configuration>
+		      </plugin>
 			<plugin>
 			  <!-- MVN CLEAN TEST -->
 		      <groupId>org.jacoco</groupId>

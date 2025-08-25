@@ -1,0 +1,3 @@
+go install sigs.k8s.io/kind@v0.29.0 -> install kind
+
+kind create cluster --name microservices --config "C:\Users\pablo\Desktop\Cursos de spring\MicroServices_07_25\k8s\kind\kind-config.yml" -> create cluster
